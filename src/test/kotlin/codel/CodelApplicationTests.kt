@@ -1,10 +1,10 @@
-package school.reunion
+package codel
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class ReunionApplicationTests {
+class CodelApplicationTests {
 
 	@Test
 	fun contextLoads() {

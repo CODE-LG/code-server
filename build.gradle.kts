@@ -6,7 +6,7 @@ plugins {
 	kotlin("plugin.jpa") version "1.9.25"
 }
 
-group = "school"
+group = "codel"
 version = "0.0.1-SNAPSHOT"
 
 java {

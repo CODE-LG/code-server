@@ -1,1 +1,1 @@
-rootProject.name = "reunion"
+rootProject.name = "codel"
