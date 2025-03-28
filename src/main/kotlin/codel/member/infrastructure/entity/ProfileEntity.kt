@@ -1,4 +1,4 @@
-package codel.infrastructure.entity
+package codel.member.infrastructure.entity
 
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue

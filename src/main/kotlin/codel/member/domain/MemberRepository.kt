@@ -1,7 +1,7 @@
-package codel.domain
+package codel.member.domain
 
-import codel.infrastructure.MemberJpaRepository
-import codel.infrastructure.entity.MemberEntity
+import codel.member.infrastructure.MemberJpaRepository
+import codel.member.infrastructure.entity.MemberEntity
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
 

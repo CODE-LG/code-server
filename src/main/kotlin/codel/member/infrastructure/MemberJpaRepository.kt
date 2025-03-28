@@ -1,6 +1,6 @@
-package codel.infrastructure
+package codel.member.infrastructure
 
-import codel.infrastructure.entity.MemberEntity
+import codel.member.infrastructure.entity.MemberEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

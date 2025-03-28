@@ -1,7 +1,7 @@
-package codel.infrastructure
+package codel.member.infrastructure
 
-import codel.domain.OauthType
-import codel.infrastructure.entity.MemberEntity
+import codel.member.domain.OauthType
+import codel.member.infrastructure.entity.MemberEntity
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

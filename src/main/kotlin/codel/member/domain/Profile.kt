@@ -1,4 +1,4 @@
-package codel.domain
+package codel.member.domain
 
 class Profile(
     val codeName: String,

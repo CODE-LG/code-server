@@ -1,6 +1,6 @@
-package codel.presentation
+package codel.member.presentation
 
-import codel.presentation.response.MemberSavedResponse
+import codel.member.presentation.response.MemberSavedResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -12,7 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.server.LocalServerPort
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class MemberControllerTest() {
+class MemberControllerTest {
     @LocalServerPort
     var port: Int = 0
 

@@ -1,7 +1,7 @@
-package codel.infrastructure.entity
+package codel.member.infrastructure.entity
 
-import codel.domain.Member
-import codel.domain.OauthType
+import codel.member.domain.Member
+import codel.member.domain.OauthType
 import jakarta.persistence.*
 
 @Entity

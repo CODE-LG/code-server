@@ -1,7 +1,7 @@
-package codel.business
+package codel.member.business
 
-import codel.domain.OauthType
-import codel.presentation.request.MemberSavedRequest
+import codel.member.domain.OauthType
+import codel.member.presentation.request.MemberSavedRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test

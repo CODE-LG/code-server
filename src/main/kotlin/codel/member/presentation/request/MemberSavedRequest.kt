@@ -1,6 +1,6 @@
-package codel.presentation.request
+package codel.member.presentation.request
 
-import codel.domain.OauthType
+import codel.member.domain.OauthType
 
 data class MemberSavedRequest(
     val oauthType: OauthType,

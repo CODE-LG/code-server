@@ -1,9 +1,9 @@
-package codel.business
+package codel.member.business
 
-import codel.domain.Member
-import codel.domain.MemberRepository
-import codel.presentation.request.MemberSavedRequest
-import codel.presentation.response.MemberSavedResponse
+import codel.member.domain.Member
+import codel.member.domain.MemberRepository
+import codel.member.presentation.request.MemberSavedRequest
+import codel.member.presentation.response.MemberSavedResponse
 import org.springframework.stereotype.Service
 
 @Service

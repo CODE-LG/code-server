@@ -1,8 +1,8 @@
-package codel.presentation
+package codel.member.presentation
 
-import codel.business.MemberService
-import codel.presentation.request.MemberSavedRequest
-import codel.presentation.response.MemberSavedResponse
+import codel.member.business.MemberService
+import codel.member.presentation.request.MemberSavedRequest
+import codel.member.presentation.response.MemberSavedResponse
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
