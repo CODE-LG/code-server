@@ -15,6 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort
 class MemberControllerTest() {
     @LocalServerPort
     var port: Int = 0
+
     @BeforeEach
     fun setup() {
         RestAssured.port = port
@@ -23,38 +24,39 @@ class MemberControllerTest() {
     @DisplayName("Member 테스트")
     @Test
     fun saveMember() {
-        val request = mapOf(
+        val request =
+            mapOf(
                 "oauthType" to "APPLE",
-                "oauthId" to "hogee"
-        )
+                "oauthId" to "hogee",
+            )
         val newUserResponse = MemberSavedResponse(false)
 
         given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .`when`()
-                .post("/v1/auth/login")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(MemberSavedResponse::class.java)
-                .also { response ->
-                    assertEquals(newUserResponse.isUser, response.isUser)
-                }
+            .contentType(ContentType.JSON)
+            .body(request)
+            .`when`()
+            .post("/v1/auth/login")
+            .then()
+            .statusCode(200)
+            .extract()
+            .`as`(MemberSavedResponse::class.java)
+            .also { response ->
+                assertEquals(newUserResponse.isUser, response.isUser)
+            }
 
         val duplicatedUserResponse = MemberSavedResponse(true)
 
         given()
-                .contentType(ContentType.JSON)
-                .body(request)
-                .`when`()
-                .post("/v1/auth/login")
-                .then()
-                .statusCode(200)
-                .extract()
-                .`as`(MemberSavedResponse::class.java)
-                .also { response ->
-                    assertEquals(duplicatedUserResponse.isUser, response.isUser)
-                }
+            .contentType(ContentType.JSON)
+            .body(request)
+            .`when`()
+            .post("/v1/auth/login")
+            .then()
+            .statusCode(200)
+            .extract()
+            .`as`(MemberSavedResponse::class.java)
+            .also { response ->
+                assertEquals(duplicatedUserResponse.isUser, response.isUser)
+            }
     }
 }

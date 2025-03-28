@@ -7,14 +7,13 @@ import jakarta.persistence.*
 @Entity
 @Table(
     uniqueConstraints = [
-        UniqueConstraint(columnNames = ["oauthType", "oauthId"])
-    ]
+        UniqueConstraint(columnNames = ["oauthType", "oauthId"]),
+    ],
 )
 class MemberEntity(
-        private var oauthType: OauthType,
-        private var oauthId: String
+    private var oauthType: OauthType,
+    private var oauthId: String,
 ) {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0
@@ -23,11 +22,10 @@ class MemberEntity(
     var profileEntity: ProfileEntity? = null
 
     companion object {
-        fun toEntity(member: Member): MemberEntity {
-            return MemberEntity(
+        fun toEntity(member: Member): MemberEntity =
+            MemberEntity(
                 oauthType = member.oauthType,
-                oauthId = member.oauthId
+                oauthId = member.oauthId,
             )
-        }
     }
 }
