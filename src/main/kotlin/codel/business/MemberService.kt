@@ -8,16 +8,14 @@ import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
-        private val memberRepository: MemberRepository
+    private val memberRepository: MemberRepository,
 ) {
-
-    fun saveMember(
-            request: MemberSavedRequest
-    ): MemberSavedResponse {
-        val member = Member(
+    fun saveMember(request: MemberSavedRequest): MemberSavedResponse {
+        val member =
+            Member(
                 oauthType = request.oauthType,
-                oauthId = request.oauthId
-        )
+                oauthId = request.oauthId,
+            )
         val isUser = memberRepository.saveMember(member)
 
         return MemberSavedResponse(isUser)

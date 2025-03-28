@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class CodelApplication
 
 fun main(args: Array<String>) {
-	runApplication<CodelApplication>(*args)
+    runApplication<CodelApplication>(*args)
 }

@@ -10,10 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
 class MemberServiceTest(
-        @Autowired
-        private val memberService: MemberService
+    @Autowired
+    private val memberService: MemberService,
 ) {
-
     @DisplayName("멤버 중복 저장 테스트")
     @Test
     fun saveMemberSuccessTest() {

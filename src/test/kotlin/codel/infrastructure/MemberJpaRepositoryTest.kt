@@ -10,11 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.DataIntegrityViolationException
 
 @SpringBootTest
-class MemberJpaRepositoryTest (
-        @Autowired
-        private val memberJpaRepository: MemberJpaRepository
-){
-
+class MemberJpaRepositoryTest(
+    @Autowired
+    private val memberJpaRepository: MemberJpaRepository,
+) {
     @DisplayName("중복된 멤버에 대해 유니크 제약 조건을 발생시킨다.")
     @Test
     fun saveMemberTest() {
