@@ -16,4 +16,12 @@ class MemberRepository(
         } catch (e: DataIntegrityViolationException) {
             true
         }
+
+    fun findMember(
+        oauthType: OauthType,
+        oauthId: String,
+    ): Member {
+        val memberEntity = memberJpaRepository.findByOauthTypeAndOauthId(oauthType, oauthId)
+        return memberEntity.toDomain()
+    }
 }

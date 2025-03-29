@@ -17,8 +17,8 @@ class MemberJpaRepositoryTest(
     @DisplayName("중복된 멤버에 대해 유니크 제약 조건을 발생시킨다.")
     @Test
     fun saveMemberTest() {
-        val memberEntity1 = MemberEntity(OauthType.APPLE, "hogee")
-        val memberEntity2 = MemberEntity(OauthType.APPLE, "hogee")
+        val memberEntity1 = MemberEntity(OauthType.APPLE, "hoho")
+        val memberEntity2 = MemberEntity(OauthType.APPLE, "hoho")
         memberJpaRepository.save(memberEntity1)
 
         Assertions.assertThrows(DataIntegrityViolationException::class.java) {

@@ -1,5 +1,6 @@
 package codel.member.presentation
 
+import codel.auth.business.AuthService
 import codel.member.business.MemberService
 import codel.member.presentation.request.MemberSavedRequest
 import codel.member.presentation.response.MemberSavedResponse
@@ -11,13 +12,17 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class MemberController(
     private val memberService: MemberService,
+    private val authService: AuthService,
 ) {
     @PostMapping("/v1/auth/login")
     fun saveMember(
         @RequestBody request: MemberSavedRequest,
     ): ResponseEntity<MemberSavedResponse> {
         val memberSavedResponse = memberService.saveMember(request)
-
-        return ResponseEntity.ok(memberSavedResponse)
+        val token = authService.provideToken(request)
+        return ResponseEntity
+            .ok()
+            .header("Authorization", "Bearer $token")
+            .body(memberSavedResponse)
     }
 }

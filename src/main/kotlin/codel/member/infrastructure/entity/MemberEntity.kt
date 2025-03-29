@@ -28,4 +28,11 @@ class MemberEntity(
                 oauthId = member.oauthId,
             )
     }
+
+    fun toDomain(): Member =
+        Member(
+            id = this.id,
+            oauthType = this.oauthType,
+            oauthId = this.oauthId,
+        )
 }
