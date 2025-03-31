@@ -1,11 +1,12 @@
 package codel.member.presentation
 
 import codel.config.TestFixture
+import codel.member.domain.MemberStatus
 import codel.member.presentation.response.MemberSavedResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
-import org.junit.jupiter.api.Assertions.assertEquals
+import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
@@ -31,7 +32,7 @@ class MemberControllerTest : TestFixture() {
                 "oauthType" to "APPLE",
                 "oauthId" to "hogee",
             )
-        val duplicatedUserResponse = MemberSavedResponse(true)
+        val expectedResponse = MemberSavedResponse(MemberStatus.SIGNUP)
 
         val token =
             given()
@@ -57,7 +58,7 @@ class MemberControllerTest : TestFixture() {
                 .extract()
                 .`as`(MemberSavedResponse::class.java)
 
-        assertEquals(duplicatedUserResponse.isUser, response.isUser)
+        Assertions.assertThat(expectedResponse.memberStatus).isEqualTo(response.memberStatus)
     }
 
     @DisplayName("허용된 URL은 인증 없이 접근 가능해야 한다")

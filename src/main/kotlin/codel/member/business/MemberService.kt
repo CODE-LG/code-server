@@ -16,8 +16,8 @@ class MemberService(
                 oauthType = request.oauthType,
                 oauthId = request.oauthId,
             )
-        val isUser = memberRepository.saveMember(member)
+        val savedMember = memberRepository.saveMember(member)
 
-        return MemberSavedResponse(isUser)
+        return MemberSavedResponse(savedMember.memberStatus)
     }
 }

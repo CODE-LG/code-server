@@ -9,12 +9,13 @@ import org.springframework.stereotype.Component
 class MemberRepository(
     private val memberJpaRepository: MemberJpaRepository,
 ) {
-    fun saveMember(member: Member): Boolean =
+    fun saveMember(member: Member): Member =
         try {
-            memberJpaRepository.save(MemberEntity.toEntity(member))
-            false
+            val memberEntity = memberJpaRepository.save(MemberEntity.toEntity(member))
+            memberEntity.toDomain()
         } catch (e: DataIntegrityViolationException) {
-            true
+            val memberEntity = memberJpaRepository.findByOauthTypeAndOauthId(member.oauthType, member.oauthId)
+            memberEntity.toDomain()
         }
 
     fun findMember(

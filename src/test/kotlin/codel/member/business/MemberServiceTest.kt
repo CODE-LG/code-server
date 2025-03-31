@@ -1,5 +1,6 @@
 package codel.member.business
 
+import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
 import codel.member.presentation.request.MemberSavedRequest
 import org.assertj.core.api.Assertions.assertThat
@@ -13,15 +14,13 @@ class MemberServiceTest(
     @Autowired
     private val memberService: MemberService,
 ) {
-    @DisplayName("멤버 중복 저장 테스트")
+    @DisplayName("첫 로그인을 한 멤버의 상태는 SignUp 이다.")
     @Test
     fun saveMemberSuccessTest() {
         val memberSavedRequest = MemberSavedRequest(OauthType.KAKAO, "hogee")
 
-        val newUser = memberService.saveMember(memberSavedRequest).isUser
-        val duplicatedUser = memberService.saveMember(memberSavedRequest).isUser
+        val memberStatus = memberService.saveMember(memberSavedRequest).memberStatus
 
-        assertThat(newUser).isFalse()
-        assertThat(duplicatedUser).isTrue()
+        assertThat(memberStatus).isEqualTo(MemberStatus.SIGNUP)
     }
 }
