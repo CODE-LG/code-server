@@ -11,12 +11,22 @@ import org.springframework.web.filter.OncePerRequestFilter
 class JwtAuthFilter(
     private val tokenProvider: TokenProvider,
 ) : OncePerRequestFilter() {
+    companion object {
+        private val EXCLUDE_URIS =
+            listOf(
+                "/v1/auth/login",
+                "/v1/health",
+                "/swagger-ui/",
+                "/v3/api-docs",
+            )
+    }
+
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
         filterChain: FilterChain,
     ) {
-        if (request.requestURI == "/v1/auth/login") {
+        if (EXCLUDE_URIS.any { request.requestURI.startsWith(it) }) {
             filterChain.doFilter(request, response)
             return
         }
