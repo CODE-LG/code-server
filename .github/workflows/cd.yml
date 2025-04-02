@@ -58,4 +58,4 @@ jobs:
             echo "Stopping existing application..."
             pkill -f 'java -jar' || true
             echo "Starting new jar..."
-            setsid nohup java -jar ${{ secrets.DEV_DEPLOY_PATH }}/build/libs/codel-0.0.1-SNAPSHOT.jar > app.log 2>&1 < /dev/null &
+            nohup java -jar ${{ secrets.DEV_DEPLOY_PATH }}/build/libs/codel-0.0.1-SNAPSHOT.jar > app.log 2>&1 & disown
