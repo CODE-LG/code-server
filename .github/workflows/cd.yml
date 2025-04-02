@@ -1,0 +1,65 @@
+name: CD - Deploy to Dev
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  deploy:
+    name: Deploy to Dev Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant permission to gradlew
+        run: chmod +x ./gradlew
+
+      - name: Generate application.yml
+        run: |
+          mkdir -p src/main/resources
+          cat <<EOF > src/main/resources/application.yml
+          server:
+            port: 8080
+          security:
+            jwt:
+              token:
+                expire-length: ${{ secrets.JWT_EXPIRE_LENGTH }}
+                secret-key: ${{ secrets.JWT_SECRET_KEY }}
+          EOF
+
+      - name: Build without tests
+        run: ./gradlew clean build -x test
+
+      - name: Upload jar to dev server
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SERVER_KEY }}
+          source: "build/libs/*.jar"
+          target: ${{ secrets.DEV_DEPLOY_PATH }}
+
+      - name: Clean old jars and restart app
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.DEV_SERVER_HOST }}
+          username: ${{ secrets.DEV_SERVER_USER }}
+          key: ${{ secrets.DEV_SERVER_KEY }}
+          script: |
+            echo "Stopping existing application..."
+            pkill -f 'java -jar' || true
+            echo "Removing old jar backups..."
+            rm -f ${{ secrets.DEV_DEPLOY_PATH }}/*.jar.old || true
+            echo "Backing up current jar..."
+            for f in ${{ secrets.DEV_DEPLOY_PATH }}/*.jar; do mv "$f" "$f.old"; done
+            echo "Starting new jar..."
+            nohup java -jar ${{ secrets.DEV_DEPLOY_PATH }}/*.jar --spring.profiles.active=dev > app.log 2>&1 &
