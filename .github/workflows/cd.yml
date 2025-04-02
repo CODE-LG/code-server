@@ -64,14 +64,14 @@ jobs:
             fi
 
             echo "🧼 Cleaning up old container..."
-            docker stop codel || true
-            docker rm codel || true
+            sudo docker stop codel || true
+            sudo docker rm codel || true
 
             echo "🐳 Pulling latest image from Docker Hub..."
-            docker pull ${{ secrets.DOCKER_USERNAME }}/codel-app:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/codel-app:latest
 
             echo "🚀 Starting container..."
-            docker run -d --name codel -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/codel-app:latest
+            sudo docker run -d --name codel -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/codel-app:latest
 
             echo "📄 Tail log output:"
-            docker logs --tail=20 codel || true
+            sudo docker logs --tail=20 codel || true
