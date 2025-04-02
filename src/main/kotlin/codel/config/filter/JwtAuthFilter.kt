@@ -14,7 +14,7 @@ class JwtAuthFilter(
     companion object {
         private val EXCLUDE_URIS =
             listOf(
-                "/v1/auth/login",
+                "/v1/member/login",
                 "/v1/health",
                 "/swagger-ui/",
                 "/v3/api-docs",
