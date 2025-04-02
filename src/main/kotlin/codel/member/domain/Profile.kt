@@ -12,8 +12,6 @@ class Profile(
     val smallCity: String,
     val mbti: String,
     val introduce: String,
-    val codeImage: List<String>,
-    val faceImage: List<String>,
 ) {
     val id: Long = 0
 }
