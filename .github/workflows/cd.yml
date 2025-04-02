@@ -62,4 +62,4 @@ jobs:
             echo "Backing up current jar..."
             for f in ${{ secrets.DEV_DEPLOY_PATH }}/*.jar; do mv "$f" "$f.old"; done
             echo "Starting new jar..."
-            nohup java -jar ${{ secrets.DEV_DEPLOY_PATH }}/*.jar --spring.profiles.active=dev > app.log 2>&1 &
+            nohup java -jar ${{ secrets.DEV_DEPLOY_PATH }}/build/libs/codel-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev > app.log 2>&1 &
