@@ -1,6 +1,6 @@
-package codel.member.domain
+package codel.member.presentation.request
 
-class Profile(
+data class ProfileSavedRequest(
     val codeName: String,
     val age: Int,
     val job: String,
@@ -12,6 +12,4 @@ class Profile(
     val smallCity: String,
     val mbti: String,
     val introduce: String,
-) {
-    val id: Long = 0
-}
+)

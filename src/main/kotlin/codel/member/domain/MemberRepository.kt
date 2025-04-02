@@ -1,13 +1,16 @@
 package codel.member.domain
 
 import codel.member.infrastructure.MemberJpaRepository
+import codel.member.infrastructure.ProfileJpaRepository
 import codel.member.infrastructure.entity.MemberEntity
+import codel.member.infrastructure.entity.ProfileEntity
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Component
 
 @Component
 class MemberRepository(
     private val memberJpaRepository: MemberJpaRepository,
+    private val profileJpaRepository: ProfileJpaRepository,
 ) {
     fun saveMember(member: Member): Member =
         try {
@@ -24,5 +27,9 @@ class MemberRepository(
     ): Member {
         val memberEntity = memberJpaRepository.findByOauthTypeAndOauthId(oauthType, oauthId)
         return memberEntity.toDomain()
+    }
+
+    fun saveProfile(profile: Profile) {
+        profileJpaRepository.save(ProfileEntity.toEntity(profile))
     }
 }
