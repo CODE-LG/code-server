@@ -12,7 +12,7 @@ class MemberRepository(
     private val memberJpaRepository: MemberJpaRepository,
     private val profileJpaRepository: ProfileJpaRepository,
 ) {
-    fun saveMember(member: Member): Member =
+    fun loginMember(member: Member): Member =
         try {
             val memberEntity = memberJpaRepository.save(MemberEntity.toEntity(member))
             memberEntity.toDomain()

@@ -8,6 +8,9 @@ import jakarta.persistence.Id
 
 @Entity
 class ProfileEntity(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private var id: Long? = null,
     private var codeName: String,
     private var age: Int,
     private var job: String,
@@ -22,10 +25,6 @@ class ProfileEntity(
     private var codeImage: String? = null, // 복수
     private var faceImage: String? = null, // 복수
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0
-
     companion object {
         fun toEntity(profile: Profile): ProfileEntity =
             ProfileEntity(

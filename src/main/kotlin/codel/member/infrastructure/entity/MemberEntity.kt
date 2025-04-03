@@ -14,17 +14,15 @@ import jakarta.persistence.*
     ],
 )
 class MemberEntity(
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private var id: Long? = null,
+    @OneToOne
+    private var profileEntity: ProfileEntity? = null,
     private var oauthType: OauthType,
     private var oauthId: String,
     private var memberStatus: MemberStatus,
 ) {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0
-
-    @OneToOne
-    var profileEntity: ProfileEntity? = null
-
     companion object {
         fun toEntity(member: Member): MemberEntity =
             MemberEntity(
