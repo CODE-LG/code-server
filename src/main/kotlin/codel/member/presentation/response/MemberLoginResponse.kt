@@ -2,6 +2,6 @@ package codel.member.presentation.response
 
 import codel.member.domain.MemberStatus
 
-data class MemberSavedResponse(
+data class MemberLoginResponse(
     val memberStatus: MemberStatus,
 )

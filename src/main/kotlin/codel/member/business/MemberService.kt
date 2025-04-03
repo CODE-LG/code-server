@@ -3,24 +3,24 @@ package codel.member.business
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
 import codel.member.domain.Profile
-import codel.member.presentation.request.MemberSavedRequest
+import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
-import codel.member.presentation.response.MemberSavedResponse
+import codel.member.presentation.response.MemberLoginResponse
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
 ) {
-    fun saveMember(request: MemberSavedRequest): MemberSavedResponse {
+    fun loginMember(request: MemberLoginRequest): MemberLoginResponse {
         val member =
             Member(
                 oauthType = request.oauthType,
                 oauthId = request.oauthId,
             )
-        val savedMember = memberRepository.saveMember(member)
+        val loginMember = memberRepository.loginMember(member)
 
-        return MemberSavedResponse(savedMember.memberStatus)
+        return MemberLoginResponse(loginMember.memberStatus)
     }
 
     fun saveProfile(request: ProfileSavedRequest) {

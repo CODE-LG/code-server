@@ -1,8 +1,8 @@
 package codel.member.presentation.swagger
 
-import codel.member.presentation.request.MemberSavedRequest
+import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
-import codel.member.presentation.response.MemberSavedResponse
+import codel.member.presentation.response.MemberLoginResponse
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
@@ -20,9 +20,9 @@ interface MemberControllerSwagger {
             ApiResponse(responseCode = "500", description = "서버 내부 오류"),
         ],
     )
-    fun saveMember(
-        @RequestBody request: MemberSavedRequest,
-    ): ResponseEntity<MemberSavedResponse>
+    fun loginMember(
+        @RequestBody request: MemberLoginRequest,
+    ): ResponseEntity<MemberLoginResponse>
 
     @Operation(summary = "이미지를 제외한 프로필 받기", description = "이미지를 제외한 프로필을 입력받습니다.")
     @ApiResponses(
