@@ -2,7 +2,7 @@ package codel.member.presentation
 
 import codel.config.TestFixture
 import codel.member.domain.MemberStatus
-import codel.member.presentation.response.MemberSavedResponse
+import codel.member.presentation.response.MemberLoginResponse
 import io.restassured.RestAssured
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType
@@ -32,7 +32,7 @@ class MemberControllerTest : TestFixture() {
                 "oauthType" to "APPLE",
                 "oauthId" to "hogee",
             )
-        val expectedResponse = MemberSavedResponse(MemberStatus.SIGNUP)
+        val expectedResponse = MemberLoginResponse(MemberStatus.SIGNUP)
 
         val token =
             given()
@@ -56,7 +56,7 @@ class MemberControllerTest : TestFixture() {
                 .then()
                 .statusCode(200)
                 .extract()
-                .`as`(MemberSavedResponse::class.java)
+                .`as`(MemberLoginResponse::class.java)
 
         Assertions.assertThat(expectedResponse.memberStatus).isEqualTo(response.memberStatus)
     }
