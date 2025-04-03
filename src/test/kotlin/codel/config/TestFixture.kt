@@ -28,6 +28,7 @@ class TestFixture {
 
     @BeforeEach
     fun setUp() {
+        memberJpaRepository.deleteAll()
         hogee =
             Member(
                 oauthType = OauthType.APPLE,
