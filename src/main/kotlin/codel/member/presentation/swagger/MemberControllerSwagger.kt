@@ -1,5 +1,6 @@
 package codel.member.presentation.swagger
 
+import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
@@ -34,5 +35,17 @@ interface MemberControllerSwagger {
     )
     fun saveProfile(
         @RequestBody request: ProfileSavedRequest,
+    ): ResponseEntity<Unit>
+
+    @Operation(summary = "코드 프로필 이미지 받기", description = "코드 프로필 이미지 받습니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "코드 프로필 이미지 성공적으로 저장됨"),
+            ApiResponse(responseCode = "400", description = "요청 값이 잘못됨"),
+            ApiResponse(responseCode = "500", description = "서버 내부 오류"),
+        ],
+    )
+    fun saveCodeImage(
+        @RequestBody request: CodeImageSavedRequest,
     ): ResponseEntity<Unit>
 }

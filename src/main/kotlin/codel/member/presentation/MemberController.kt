@@ -2,6 +2,7 @@ package codel.member.presentation
 
 import codel.auth.business.AuthService
 import codel.member.business.MemberService
+import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
@@ -34,5 +35,12 @@ class MemberController(
     ): ResponseEntity<Unit> {
         memberService.saveProfile(request)
         return ResponseEntity.ok().build()
+    }
+
+    @PostMapping("/v1/member/codeimage")
+    override fun saveCodeImage(
+        @RequestBody request: CodeImageSavedRequest,
+    ): ResponseEntity<Unit> {
+        memberService.saveCodeImage(request)
     }
 }

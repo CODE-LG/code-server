@@ -32,4 +32,7 @@ class MemberRepository(
     fun saveProfile(profile: Profile) {
         profileJpaRepository.save(ProfileEntity.toEntity(profile))
     }
+
+    fun saveImagePath(codeImage: CodeImage) {
+    }
 }
