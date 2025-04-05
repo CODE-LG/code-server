@@ -1,5 +1,7 @@
 package codel.member.presentation.swagger
 
+import codel.config.argumentresolver.LoginMember
+import codel.member.domain.Member
 import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
@@ -46,6 +48,7 @@ interface MemberControllerSwagger {
         ],
     )
     fun saveCodeImage(
+        @LoginMember member: Member,
         @RequestBody request: CodeImageSavedRequest,
     ): ResponseEntity<Unit>
 }

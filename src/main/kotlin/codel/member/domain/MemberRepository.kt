@@ -33,6 +33,12 @@ class MemberRepository(
         profileJpaRepository.save(ProfileEntity.toEntity(profile))
     }
 
-    fun saveImagePath(codeImage: CodeImage) {
+    fun saveImagePath(
+        member: Member,
+        codeImage: CodeImage,
+    ) {
+        member.saveCodeImage(codeImage)
+
+        val memberEntity = MemberEntity.toEntity(member)
     }
 }
