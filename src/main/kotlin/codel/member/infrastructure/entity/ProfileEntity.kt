@@ -42,7 +42,25 @@ class ProfileEntity(
             )
 
         private fun serializeAttribute(attribute: List<String>): String = attribute.joinToString(separator = ",")
+
+        private fun deserializeAttribute(attribute: String): List<String> = attribute.split(",")
     }
+
+    fun toDomain(): Profile =
+        Profile(
+            id = this.id,
+            codeName = this.codeName,
+            age = this.age,
+            job = this.job,
+            alcohol = this.alcohol,
+            smoke = this.smoke,
+            hobby = deserializeAttribute(this.hobby),
+            style = deserializeAttribute(this.style),
+            bigCity = this.bigCity,
+            smallCity = this.smallCity,
+            mbti = this.mbti,
+            introduce = this.introduce,
+        )
 
     fun updateCodeImage(codeImages: List<String>) {
         codeImage = serializeAttribute(codeImages)

@@ -35,7 +35,7 @@ class TestFixture {
                 oauthId = "hogee",
             )
 
-        memberRepository.loginMember(hogee)
+        hogee = memberRepository.loginMember(hogee)
 
         seokEntity =
             MemberEntity(
