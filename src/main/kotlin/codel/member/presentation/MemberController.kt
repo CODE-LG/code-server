@@ -33,9 +33,10 @@ class MemberController(
 
     @PostMapping("/v1/member/profile")
     override fun saveProfile(
+        @LoginMember member: Member,
         @RequestBody request: ProfileSavedRequest,
     ): ResponseEntity<Unit> {
-        memberService.saveProfile(request)
+        memberService.saveProfile(member, request)
         return ResponseEntity.ok().build()
     }
 

@@ -4,6 +4,7 @@ import codel.member.domain.CodeImage
 import codel.member.domain.ImageUploader
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
+import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
 import codel.member.domain.Profile
 import codel.member.presentation.request.CodeImageSavedRequest
@@ -29,7 +30,11 @@ class MemberService(
         return MemberLoginResponse(loginMember.memberStatus)
     }
 
-    fun saveProfile(request: ProfileSavedRequest) {
+    @Transactional
+    fun saveProfile(
+        member: Member,
+        request: ProfileSavedRequest,
+    ) {
         val profile =
             Profile(
                 codeName = request.codeName,
@@ -44,7 +49,9 @@ class MemberService(
                 mbti = request.mbti,
                 introduce = request.introduce,
             )
-        memberRepository.saveProfile(profile)
+
+        memberRepository.saveProfile(member, profile)
+        memberRepository.changeMemberStatus(member, MemberStatus.CODE_SURVEY)
     }
 
     fun findMember(
