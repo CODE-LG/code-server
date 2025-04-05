@@ -5,6 +5,7 @@ import codel.member.infrastructure.ProfileJpaRepository
 import codel.member.infrastructure.entity.MemberEntity
 import codel.member.infrastructure.entity.ProfileEntity
 import org.springframework.dao.DataIntegrityViolationException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 
 @Component
@@ -29,8 +30,30 @@ class MemberRepository(
         return memberEntity.toDomain()
     }
 
-    fun saveProfile(profile: Profile) {
-        profileJpaRepository.save(ProfileEntity.toEntity(profile))
+    fun saveProfile(
+        member: Member,
+        profile: Profile,
+    ) {
+        val memberEntity = findMemberEntity(member)
+        val profileEntity = ProfileEntity.toEntity(profile)
+
+        profileJpaRepository.save(profileEntity)
+        memberEntity.saveProfileEntity(profileEntity)
+    }
+
+    fun changeMemberStatus(
+        member: Member,
+        status: MemberStatus,
+    ) {
+        val memberEntity = findMemberEntity(member)
+
+        memberEntity.changeMemberStatus(status)
+    }
+
+    private fun findMemberEntity(member: Member): MemberEntity {
+        val memberId = member.id ?: throw IllegalArgumentException("member id가 비어있습니다.")
+
+        return memberJpaRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("멤버가 존재하지 않습니다.")
     }
 
     fun saveImagePath(

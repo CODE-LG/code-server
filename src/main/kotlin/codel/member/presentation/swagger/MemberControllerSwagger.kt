@@ -36,6 +36,7 @@ interface MemberControllerSwagger {
         ],
     )
     fun saveProfile(
+        @LoginMember member: Member,
         @RequestBody request: ProfileSavedRequest,
     ): ResponseEntity<Unit>
 
