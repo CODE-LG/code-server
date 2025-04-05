@@ -4,6 +4,7 @@ import codel.member.domain.CodeImage
 import codel.member.domain.ImageUploader
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
+import codel.member.domain.OauthType
 import codel.member.domain.Profile
 import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
@@ -45,6 +46,11 @@ class MemberService(
             )
         memberRepository.saveProfile(profile)
     }
+
+    fun findMember(
+        oauthType: OauthType,
+        oauthId: String,
+    ): Member = memberRepository.findMember(oauthType, oauthId)
 
     @Transactional
     fun saveCodeImage(
