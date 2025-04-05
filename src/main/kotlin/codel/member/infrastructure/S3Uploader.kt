@@ -1,5 +1,6 @@
-package codel.member.domain
+package codel.member.infrastructure
 
+import codel.member.domain.ImageUploader
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Component
 import org.springframework.web.multipart.MultipartFile
@@ -12,8 +13,8 @@ import java.util.*
 class S3Uploader(
     private val s3Client: S3Client,
     @Value("\${cloud.aws.s3.bucket}") private val bucket: String,
-) {
-    fun uploadFile(file: MultipartFile): String {
+) : ImageUploader {
+    override fun uploadFile(file: MultipartFile): String {
         val fileName = "images/${UUID.randomUUID()}-${file.originalFilename}"
 
         val putObjectRequest =
