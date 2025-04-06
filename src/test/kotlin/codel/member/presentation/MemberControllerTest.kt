@@ -112,4 +112,33 @@ class MemberControllerTest : TestFixture() {
         val authHeader = response.header("Authorization")
         assertTrue(authHeader != null && authHeader.startsWith("Bearer "))
     }
+
+    @DisplayName("프로필을 등록 테스트")
+    @Test
+    fun saveProfile() {
+        val request =
+            mapOf(
+                "codeName" to "seok",
+                "age" to 28,
+                "job" to "백엔드 개발자",
+                "alcohol" to "자주 마심",
+                "smoke" to "비흡연자 - 흡연자와 교류 NO",
+                "hobby" to listOf("영화 & 드라마", "여행 & 캠핑"),
+                "style" to listOf("표현을 잘하는 직진형", "상대가 필요할 때 항상 먼저 연락하는 스타일"),
+                "bigCity" to "경기도",
+                "smallCity" to "성남시",
+                "mbti" to "isfj",
+                "introduce" to "잘부탁드립니다!",
+            )
+
+        given()
+            .contentType(ContentType.JSON)
+            .header("Authorization", "Bearer $token")
+            .body(request)
+            .`when`()
+            .post("/v1/member/profile")
+            .then()
+            .statusCode(200)
+            .extract()
+    }
 }
