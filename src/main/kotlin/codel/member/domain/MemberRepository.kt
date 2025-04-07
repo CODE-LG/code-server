@@ -9,8 +9,8 @@ import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
-@Component
 @Transactional
+@Component
 class MemberRepository(
     private val memberJpaRepository: MemberJpaRepository,
     private val profileJpaRepository: ProfileJpaRepository,
@@ -27,6 +27,7 @@ class MemberRepository(
         }
     }
 
+    @Transactional(readOnly = true)
     fun findMember(
         oauthType: OauthType,
         oauthId: String,

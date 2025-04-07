@@ -9,7 +9,7 @@ class TokenProviderTest : TestFixture() {
     @DisplayName("토큰 정상 생성 테스트")
     @Test
     fun provideTest() {
-        val token = tokenProvider.provide(hogee)
+        val token = tokenProvider.provide(member)
 
         Assertions.assertThat(token).isNotNull()
     }
