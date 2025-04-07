@@ -15,19 +15,23 @@ class MemberRepository(
     private val memberJpaRepository: MemberJpaRepository,
     private val profileJpaRepository: ProfileJpaRepository,
 ) {
-    fun loginMember(member: Member): Member =
-        try {
+    fun loginMember(member: Member): Member {
+        if (memberJpaRepository.existsByOauthTypeAndOauthId(member.oauthType, member.oauthId)) {
+            return findMember(member.oauthType, member.oauthId)
+        }
+        return try {
             val memberEntity = memberJpaRepository.save(MemberEntity.toEntity(member))
             memberEntity.toDomain()
         } catch (e: DataIntegrityViolationException) {
-            findMember(member.oauthType, member.oauthId)
+            throw IllegalArgumentException("이미 회원이 존재합니다.")
         }
+    }
 
     fun findMember(
         oauthType: OauthType,
         oauthId: String,
     ): Member {
-        val memberEntity = memberJpaRepository.findByOauthTypeAndOauthId(oauthType.name, oauthId)
+        val memberEntity = memberJpaRepository.findByOauthTypeAndOauthId(oauthType, oauthId)
         return memberEntity.toDomain()
     }
 

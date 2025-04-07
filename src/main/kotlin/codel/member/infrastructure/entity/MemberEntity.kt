@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package codel.member.infrastructure.entity
 
 import codel.member.domain.Member
