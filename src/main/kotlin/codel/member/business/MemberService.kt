@@ -1,21 +1,21 @@
 package codel.member.business
 
 import codel.member.domain.CodeImage
+import codel.member.domain.ImageUploader
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
+import codel.member.domain.OauthType
 import codel.member.domain.Profile
-import codel.member.domain.S3Uploader
 import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
-    private val s3Uploader: S3Uploader,
+    private val imageUploader: ImageUploader,
 ) {
     fun loginMember(request: MemberLoginRequest): MemberLoginResponse {
         val member =
@@ -28,7 +28,10 @@ class MemberService(
         return MemberLoginResponse(loginMember.memberStatus)
     }
 
-    fun saveProfile(request: ProfileSavedRequest) {
+    fun saveProfile(
+        member: Member,
+        request: ProfileSavedRequest,
+    ) {
         val profile =
             Profile(
                 codeName = request.codeName,
@@ -43,16 +46,28 @@ class MemberService(
                 mbti = request.mbti,
                 introduce = request.introduce,
             )
-        memberRepository.saveProfile(profile)
+
+        memberRepository.saveProfile(member, profile)
     }
 
-    @Transactional
-    fun saveCodeImage(request: CodeImageSavedRequest) {
-        val imageFiles = request.imageFiles
-        val codeImages = CodeImage(imageFiles.map { file -> s3Uploader.uploadFile(file) })
+    fun findMember(
+        oauthType: OauthType,
+        oauthId: String,
+    ): Member = memberRepository.findMember(oauthType, oauthId)
 
-        memberRepository.saveImagePath(codeImages)
+    fun saveCodeImage(
+        member: Member,
+        request: CodeImageSavedRequest,
+    ) {
+        val codeImage = uploadFile(request)
+
+        memberRepository.saveImagePath(member, codeImage)
 
         // memberStatus 수정
+    }
+
+    private fun uploadFile(request: CodeImageSavedRequest): CodeImage {
+        val imageFiles = request.imageFiles
+        return CodeImage(imageFiles.map { file -> imageUploader.uploadFile(file) })
     }
 }

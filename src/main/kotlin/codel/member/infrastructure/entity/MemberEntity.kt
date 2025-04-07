@@ -1,11 +1,15 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package codel.member.infrastructure.entity
 
 import codel.member.domain.Member
 import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.OneToOne
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 
 @Entity
 @Table(
@@ -35,8 +39,17 @@ class MemberEntity(
     fun toDomain(): Member =
         Member(
             id = this.id,
+            profile = this.profileEntity?.toDomain(),
             oauthType = this.oauthType,
             oauthId = this.oauthId,
             memberStatus = this.memberStatus,
         )
+
+    fun saveProfileEntity(profileEntity: ProfileEntity) {
+        this.profileEntity = profileEntity
+    }
+
+    fun changeMemberStatus(status: MemberStatus) {
+        this.memberStatus = status
+    }
 }
