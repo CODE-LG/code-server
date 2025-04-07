@@ -48,12 +48,12 @@ class MemberServiceTest(
                 mbti = "isfj",
                 introduce = "잘부탁드립니다!",
             )
-        memberService.saveProfile(hogee, profileSavedRequest)
+        memberService.saveProfile(member, profileSavedRequest)
 
         val findMember =
             memberService.findMember(
-                oauthType = hogee.oauthType,
-                oauthId = hogee.oauthId,
+                oauthType = member.oauthType,
+                oauthId = member.oauthId,
             )
 
         Assertions.assertAll(
