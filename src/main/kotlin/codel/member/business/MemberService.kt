@@ -11,6 +11,7 @@ import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MemberService(
@@ -55,15 +56,13 @@ class MemberService(
         oauthId: String,
     ): Member = memberRepository.findMember(oauthType, oauthId)
 
+    @Transactional
     fun saveCodeImage(
         member: Member,
         request: CodeImageSavedRequest,
     ) {
         val codeImage = uploadFile(request)
-
         memberRepository.saveImagePath(member, codeImage)
-
-        // memberStatus 수정
     }
 
     private fun uploadFile(request: CodeImageSavedRequest): CodeImage {

@@ -1,5 +1,6 @@
 package codel.member.infrastructure.entity
 
+import codel.member.domain.CodeImage
 import codel.member.domain.Member
 import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
@@ -47,6 +48,10 @@ class MemberEntity(
 
     fun saveProfileEntity(profileEntity: ProfileEntity) {
         this.profileEntity = profileEntity
+    }
+
+    fun updateCodeImage(codeImage: CodeImage) {
+        profileEntity!!.updateCodeImage(codeImage)
     }
 
     fun changeMemberStatus(status: MemberStatus) {
