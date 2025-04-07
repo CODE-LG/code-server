@@ -4,14 +4,12 @@ import codel.member.domain.CodeImage
 import codel.member.domain.ImageUploader
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
-import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
 import codel.member.domain.Profile
 import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
-import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
@@ -30,7 +28,6 @@ class MemberService(
         return MemberLoginResponse(loginMember.memberStatus)
     }
 
-    @Transactional
     fun saveProfile(
         member: Member,
         request: ProfileSavedRequest,
@@ -51,7 +48,6 @@ class MemberService(
             )
 
         memberRepository.saveProfile(member, profile)
-        memberRepository.changeMemberStatus(member, MemberStatus.CODE_SURVEY)
     }
 
     fun findMember(
@@ -59,7 +55,6 @@ class MemberService(
         oauthId: String,
     ): Member = memberRepository.findMember(oauthType, oauthId)
 
-    @Transactional
     fun saveCodeImage(
         member: Member,
         request: CodeImageSavedRequest,
