@@ -58,8 +58,9 @@ class MemberRepository(
         member: Member,
         codeImage: CodeImage,
     ) {
-        member.saveCodeImage(codeImage)
-
-        val memberEntity = MemberEntity.toEntity(member)
+        val memberEntity =
+            memberJpaRepository.findByIdOrNull(member.id) ?: throw IllegalArgumentException("해당 id 멤버 없음")
+        memberEntity.updateCodeImage(codeImage)
+        memberEntity.changeMemberStatus(MemberStatus.CODE_PROFILE_IMAGE)
     }
 }

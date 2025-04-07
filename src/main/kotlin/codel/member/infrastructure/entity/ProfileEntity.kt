@@ -1,5 +1,7 @@
 package codel.member.infrastructure.entity
 
+import codel.member.domain.CodeImage
+import codel.member.domain.FaceImage
 import codel.member.domain.Profile
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
@@ -62,11 +64,11 @@ class ProfileEntity(
             introduce = this.introduce,
         )
 
-    fun updateCodeImage(codeImages: List<String>) {
-        codeImage = serializeAttribute(codeImages)
+    fun updateCodeImage(codeImage: CodeImage) {
+        this.codeImage = serializeAttribute(codeImage.urls)
     }
 
-    fun updateFaceImage(faceImages: List<String>) {
-        faceImage = serializeAttribute(faceImages)
+    fun updateFaceImage(faceImage: FaceImage) {
+        this.faceImage = serializeAttribute(faceImage.urls)
     }
 }
