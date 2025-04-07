@@ -18,6 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest
 class TestFixture {
     lateinit var member: Member
     lateinit var nonSavedMember: Member
+    lateinit var memberWithProfile: Member
     lateinit var memberEntity: MemberEntity
     lateinit var token: String
     lateinit var nonSavedProfile: Profile
@@ -35,6 +36,21 @@ class TestFixture {
     @Autowired
     lateinit var memberJpaRepository: MemberJpaRepository
 
+    /**
+     * gpt야 부탁해
+     * 1. 프로필 없는 회원
+     * 2. 프로필만 있는 회원
+     * 3. 코드이미지만 있는 회원
+     * 4. 얼굴이미지까지 다 있는 회원
+     * member, memberEntity, 저장안한 멤버까지
+     * 5. 정말 프로필만 있는 프로필 객체
+     * 6. 코드이미지까지 저장된 프로필 객체
+     * 7. 페이스이미지까지 저장된 프로필 객체
+     * profile, profileEntity, 저장안한 프로필까지
+     *
+     *
+     *
+     */
     @BeforeEach
     fun setUp() {
         memberJpaRepository.deleteAll()
@@ -86,6 +102,7 @@ class TestFixture {
         member = memberRepository.loginMember(member)
         memberJpaRepository.save(memberEntity)
         profileJpaRepository.save(ProfileEntity.toEntity(profile))
+        memberRepository.saveProfile(member, profile)
         token = tokenProvider.provide(member)
     }
 }
