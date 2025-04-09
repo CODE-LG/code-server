@@ -13,19 +13,19 @@ class ProfileEntity(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private var id: Long? = null,
-    private var codeName: String,
-    private var age: Int,
-    private var job: String,
-    private var alcohol: String,
-    private var smoke: String,
-    private var hobby: String, // 복수
-    private var style: String, // 복수
-    private var bigCity: String,
-    private var smallCity: String,
-    private var mbti: String,
-    private var introduce: String,
-    private var codeImage: String? = null, // 복수
-    private var faceImage: String? = null, // 복수
+    var codeName: String,
+    var age: Int,
+    var job: String,
+    var alcohol: String,
+    var smoke: String,
+    var hobby: String, // 복수
+    var style: String, // 복수
+    var bigCity: String,
+    var smallCity: String,
+    var mbti: String,
+    var introduce: String,
+    var codeImage: String? = null, // 복수
+    var faceImage: String? = null, // 복수
 ) {
     companion object {
         fun toEntity(profile: Profile): ProfileEntity =
@@ -47,6 +47,10 @@ class ProfileEntity(
 
         private fun deserializeAttribute(attribute: String): List<String> = attribute.split(",")
     }
+
+    fun getCodeImage(): List<String>? = this.codeImage?.let { deserializeAttribute(it) }
+
+    fun getFaceImage(): List<String>? = this.faceImage?.let { deserializeAttribute(it) }
 
     fun toDomain(): Profile =
         Profile(
