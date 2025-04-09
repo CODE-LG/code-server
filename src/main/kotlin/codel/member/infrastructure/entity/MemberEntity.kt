@@ -23,10 +23,10 @@ class MemberEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private var id: Long? = null,
     @OneToOne
-    private var profileEntity: ProfileEntity? = null,
-    private var oauthType: OauthType,
-    private var oauthId: String,
-    private var memberStatus: MemberStatus,
+    var profileEntity: ProfileEntity? = null,
+    var oauthType: OauthType,
+    var oauthId: String,
+    var memberStatus: MemberStatus,
 ) {
     companion object {
         fun toEntity(member: Member): MemberEntity =
@@ -44,6 +44,7 @@ class MemberEntity(
             oauthType = this.oauthType,
             oauthId = this.oauthId,
             memberStatus = this.memberStatus,
+            codeImage = profileEntity?.getCodeImage()?.let { CodeImage(it) },
         )
 
     fun saveProfileEntity(profileEntity: ProfileEntity) {
