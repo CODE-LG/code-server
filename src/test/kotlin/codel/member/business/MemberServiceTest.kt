@@ -5,7 +5,6 @@ import codel.member.domain.ImageUploader
 import codel.member.domain.MemberRepository
 import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
-import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import org.assertj.core.api.Assertions.assertThat
@@ -80,7 +79,7 @@ class MemberServiceTest(
 
         val file1 = MockMultipartFile("image1", "image1.jpg", "image/jpeg", byteArrayOf(1, 2, 3))
         val file2 = MockMultipartFile("image2", "image2.jpg", "image/jpeg", byteArrayOf(4, 5, 6))
-        val request = CodeImageSavedRequest(listOf(file1, file2))
+        val request = listOf(file1, file2)
 
         `when`(imageUploader.uploadFile(file1)).thenReturn("https://s3.amazonaws.com/image1.jpg")
         `when`(imageUploader.uploadFile(file2)).thenReturn("https://s3.amazonaws.com/image2.jpg")

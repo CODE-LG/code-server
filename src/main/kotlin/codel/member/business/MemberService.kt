@@ -6,12 +6,12 @@ import codel.member.domain.Member
 import codel.member.domain.MemberRepository
 import codel.member.domain.OauthType
 import codel.member.domain.Profile
-import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 @Service
 class MemberService(
@@ -59,14 +59,11 @@ class MemberService(
     @Transactional
     fun saveCodeImage(
         member: Member,
-        request: CodeImageSavedRequest,
+        files: List<MultipartFile>,
     ) {
-        val codeImage = uploadFile(request)
+        val codeImage = uploadFile(files)
         memberRepository.saveImagePath(member, codeImage)
     }
 
-    private fun uploadFile(request: CodeImageSavedRequest): CodeImage {
-        val imageFiles = request.imageFiles
-        return CodeImage(imageFiles.map { file -> imageUploader.uploadFile(file) })
-    }
+    private fun uploadFile(files: List<MultipartFile>): CodeImage = CodeImage(files.map { file -> imageUploader.uploadFile(file) })
 }

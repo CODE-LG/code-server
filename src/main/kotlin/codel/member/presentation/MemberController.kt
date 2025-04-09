@@ -4,7 +4,6 @@ import codel.auth.business.AuthService
 import codel.config.argumentresolver.LoginMember
 import codel.member.business.MemberService
 import codel.member.domain.Member
-import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
@@ -12,7 +11,9 @@ import codel.member.presentation.swagger.MemberControllerSwagger
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 
 @RestController
 class MemberController(
@@ -43,11 +44,9 @@ class MemberController(
     @PostMapping("/v1/member/codeimage")
     override fun saveCodeImage(
         @LoginMember member: Member,
-        @RequestBody request: CodeImageSavedRequest,
+        @RequestPart files: List<MultipartFile>,
     ): ResponseEntity<Unit> {
-        // 이미지를 엔티티로 저장
-        // s3 통신 방식 변경 필요
-        memberService.saveCodeImage(member, request)
+        memberService.saveCodeImage(member, files)
         return ResponseEntity.ok().build()
     }
 }

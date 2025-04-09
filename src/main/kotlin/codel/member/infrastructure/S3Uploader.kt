@@ -23,7 +23,6 @@ class S3Uploader(
                 .bucket(bucket)
                 .key(fileName)
                 .contentType(file.contentType)
-                .acl("public-read")
                 .build()
 
         s3Client.putObject(putObjectRequest, RequestBody.fromBytes(file.bytes))

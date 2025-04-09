@@ -2,7 +2,6 @@ package codel.member.presentation.swagger
 
 import codel.config.argumentresolver.LoginMember
 import codel.member.domain.Member
-import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
@@ -12,6 +11,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestPart
+import org.springframework.web.multipart.MultipartFile
 
 @Tag(name = "Member", description = "회원 관련 API")
 interface MemberControllerSwagger {
@@ -50,6 +51,6 @@ interface MemberControllerSwagger {
     )
     fun saveCodeImage(
         @LoginMember member: Member,
-        @RequestBody request: CodeImageSavedRequest,
+        @RequestPart files: List<MultipartFile>,
     ): ResponseEntity<Unit>
 }
