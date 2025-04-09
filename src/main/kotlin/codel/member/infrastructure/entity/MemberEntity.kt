@@ -1,11 +1,16 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package codel.member.infrastructure.entity
 
+import codel.member.domain.CodeImage
 import codel.member.domain.Member
 import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
-import jakarta.persistence.*
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.OneToOne
+import jakarta.persistence.Table
+import jakarta.persistence.UniqueConstraint
 
 @Entity
 @Table(
@@ -18,10 +23,10 @@ class MemberEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private var id: Long? = null,
     @OneToOne
-    private var profileEntity: ProfileEntity? = null,
-    private var oauthType: OauthType,
-    private var oauthId: String,
-    private var memberStatus: MemberStatus,
+    var profileEntity: ProfileEntity? = null,
+    var oauthType: OauthType,
+    var oauthId: String,
+    var memberStatus: MemberStatus,
 ) {
     companion object {
         fun toEntity(member: Member): MemberEntity =
@@ -35,8 +40,22 @@ class MemberEntity(
     fun toDomain(): Member =
         Member(
             id = this.id,
+            profile = this.profileEntity?.toDomain(),
             oauthType = this.oauthType,
             oauthId = this.oauthId,
             memberStatus = this.memberStatus,
+            codeImage = profileEntity?.getCodeImage()?.let { CodeImage(it) },
         )
+
+    fun saveProfileEntity(profileEntity: ProfileEntity) {
+        this.profileEntity = profileEntity
+    }
+
+    fun updateCodeImage(codeImage: CodeImage) {
+        profileEntity!!.updateCodeImage(codeImage)
+    }
+
+    fun changeMemberStatus(status: MemberStatus) {
+        this.memberStatus = status
+    }
 }

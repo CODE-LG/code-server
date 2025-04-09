@@ -2,7 +2,6 @@ package codel.member.infrastructure
 
 import codel.config.TestFixture
 import codel.member.domain.MemberStatus
-import codel.member.domain.OauthType
 import codel.member.infrastructure.entity.MemberEntity
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
@@ -17,8 +16,8 @@ class MemberJpaRepositoryTest : TestFixture() {
     fun saveMemberTest() {
         val newEntity =
             MemberEntity(
-                oauthType = OauthType.KAKAO,
-                oauthId = "seok",
+                oauthType = memberSignup.oauthType,
+                oauthId = memberSignup.oauthId,
                 memberStatus = MemberStatus.SIGNUP,
             )
         Assertions.assertThrows(DataIntegrityViolationException::class.java) {

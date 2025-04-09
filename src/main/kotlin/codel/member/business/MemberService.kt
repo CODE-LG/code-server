@@ -1,16 +1,22 @@
 package codel.member.business
 
+import codel.member.domain.CodeImage
+import codel.member.domain.ImageUploader
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
+import codel.member.domain.OauthType
 import codel.member.domain.Profile
+import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import codel.member.presentation.response.MemberLoginResponse
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class MemberService(
     private val memberRepository: MemberRepository,
+    private val imageUploader: ImageUploader,
 ) {
     fun loginMember(request: MemberLoginRequest): MemberLoginResponse {
         val member =
@@ -23,7 +29,10 @@ class MemberService(
         return MemberLoginResponse(loginMember.memberStatus)
     }
 
-    fun saveProfile(request: ProfileSavedRequest) {
+    fun saveProfile(
+        member: Member,
+        request: ProfileSavedRequest,
+    ) {
         val profile =
             Profile(
                 codeName = request.codeName,
@@ -38,6 +47,26 @@ class MemberService(
                 mbti = request.mbti,
                 introduce = request.introduce,
             )
-        memberRepository.saveProfile(profile)
+
+        memberRepository.saveProfile(member, profile)
+    }
+
+    fun findMember(
+        oauthType: OauthType,
+        oauthId: String,
+    ): Member = memberRepository.findMember(oauthType, oauthId)
+
+    @Transactional
+    fun saveCodeImage(
+        member: Member,
+        request: CodeImageSavedRequest,
+    ) {
+        val codeImage = uploadFile(request)
+        memberRepository.saveImagePath(member, codeImage)
+    }
+
+    private fun uploadFile(request: CodeImageSavedRequest): CodeImage {
+        val imageFiles = request.imageFiles
+        return CodeImage(imageFiles.map { file -> imageUploader.uploadFile(file) })
     }
 }

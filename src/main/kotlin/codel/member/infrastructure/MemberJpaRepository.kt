@@ -7,6 +7,11 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface MemberJpaRepository : JpaRepository<MemberEntity, Long> {
+    fun existsByOauthTypeAndOauthId(
+        oauthType: OauthType,
+        oauthId: String,
+    ): Boolean
+
     fun findByOauthTypeAndOauthId(
         oauthType: OauthType,
         oauthId: String,
