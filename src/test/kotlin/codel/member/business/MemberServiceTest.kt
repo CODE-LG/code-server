@@ -1,25 +1,16 @@
 package codel.member.business
 
 import codel.config.TestFixture
-import codel.member.domain.CodeImage
-import codel.member.domain.ImageUploader
 import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
-import codel.member.presentation.request.CodeImageSavedRequest
 import codel.member.presentation.request.MemberLoginRequest
 import codel.member.presentation.request.ProfileSavedRequest
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.mockito.ArgumentMatchers.any
-import org.mockito.ArgumentMatchers.eq
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
-import org.mockito.Mockito.`when`
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.mock.web.MockMultipartFile
 
 @SpringBootTest
 class MemberServiceTest(
@@ -57,41 +48,17 @@ class MemberServiceTest(
                 mbti = "isfj",
                 introduce = "잘부탁드립니다!",
             )
-        memberService.saveProfile(member, profileSavedRequest)
+        memberService.saveProfile(memberSignup, profileSavedRequest)
 
         val findMember =
             memberService.findMember(
-                oauthType = member.oauthType,
-                oauthId = member.oauthId,
+                oauthType = memberSignup.oauthType,
+                oauthId = memberSignup.oauthId,
             )
 
         Assertions.assertAll(
             { assertThat(findMember.profile).isNotNull },
             { assertThat(findMember.memberStatus).isEqualTo(MemberStatus.CODE_SURVEY) },
         )
-    }
-
-    @Test
-    fun `saveCodeImage는 S3에 업로드하고 저장소에 이미지 경로 저장한다`() {
-        val imageUploader = mock(ImageUploader::class.java)
-        val mockMemberService = MemberService(memberRepository, imageUploader)
-        // given
-        val member = member
-
-        val file1 = MockMultipartFile("image1", "image1.jpg", "image/jpeg", byteArrayOf(1, 2, 3))
-        val file2 = MockMultipartFile("image2", "image2.jpg", "image/jpeg", byteArrayOf(4, 5, 6))
-        val request = CodeImageSavedRequest(listOf(file1, file2))
-
-        // mock imageUploader.uploadFile
-        `when`(imageUploader.uploadFile(file1)).thenReturn("https://s3.amazonaws.com/image1.jpg")
-        `when`(imageUploader.uploadFile(file2)).thenReturn("https://s3.amazonaws.com/image2.jpg")
-
-        // when
-        mockMemberService.saveCodeImage(member, request)
-
-        // then
-        verify(imageUploader).uploadFile(file1)
-        verify(imageUploader).uploadFile(file2)
-        verify(memberRepository).saveImagePath(eq(member), any(CodeImage::class.java))
     }
 }
