@@ -46,6 +46,7 @@ class MemberEntity(
             oauthId = this.oauthId,
             memberStatus = this.memberStatus,
             codeImage = profileEntity?.getCodeImage()?.let { CodeImage(it) },
+            faceImage = profileEntity?.getFaceImage()?.let { FaceImage(it) },
         )
 
     fun saveProfileEntity(profileEntity: ProfileEntity) {
@@ -53,11 +54,11 @@ class MemberEntity(
     }
 
     fun updateCodeImage(codeImage: CodeImage) {
-        profileEntity?.updateCodeImage(codeImage)
+        profileEntity!!.updateCodeImage(codeImage)
     }
 
     fun updateFaceImage(faceImage: FaceImage) {
-        profileEntity?.updateFaceImage(faceImage)
+        profileEntity!!.updateFaceImage(faceImage)
     }
 
     fun changeMemberStatus(status: MemberStatus) {
