@@ -47,6 +47,9 @@ jobs:
               web:
                 exposure:
                   include: health, metrics, prometheus
+            metrics:
+              enable:
+                all: true
           EOF
 
       - name: Generate logback-spring.xml
