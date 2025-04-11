@@ -1,6 +1,7 @@
 package codel.member.infrastructure.entity
 
 import codel.member.domain.CodeImage
+import codel.member.domain.FaceImage
 import codel.member.domain.Member
 import codel.member.domain.MemberStatus
 import codel.member.domain.OauthType
@@ -45,6 +46,7 @@ class MemberEntity(
             oauthId = this.oauthId,
             memberStatus = this.memberStatus,
             codeImage = profileEntity?.getCodeImage()?.let { CodeImage(it) },
+            faceImage = profileEntity?.getFaceImage()?.let { FaceImage(it) },
         )
 
     fun saveProfileEntity(profileEntity: ProfileEntity) {
@@ -53,6 +55,10 @@ class MemberEntity(
 
     fun updateCodeImage(codeImage: CodeImage) {
         profileEntity!!.updateCodeImage(codeImage)
+    }
+
+    fun updateFaceImage(faceImage: FaceImage) {
+        profileEntity!!.updateFaceImage(faceImage)
     }
 
     fun changeMemberStatus(status: MemberStatus) {

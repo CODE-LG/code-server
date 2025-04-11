@@ -93,4 +93,31 @@ class MemberServiceTest(
         assertThat(savedMember.codeImage).isNotNull
         assertThat(savedMember.memberStatus).isEqualTo(MemberStatus.CODE_PROFILE_IMAGE)
     }
+
+    @DisplayName("saveFaceImage는 S3에 업로드하고 저장소에 이미지 경로 저장한다")
+    @Test
+    fun saveFaceImageTest() {
+        val imageUploader = mock(ImageUploader::class.java)
+        val mockMemberService = MemberService(memberRepository, imageUploader)
+        val member = memberCodeProfileImage
+
+        val file1 = MockMultipartFile("image1", "image1.jpg", "image/jpeg", byteArrayOf(1, 2, 3))
+        val file2 = MockMultipartFile("image2", "image2.jpg", "image/jpeg", byteArrayOf(4, 5, 6))
+        val file3 = MockMultipartFile("image3", "image3.jpg", "image/jpeg", byteArrayOf(7, 8, 9))
+        val request = listOf(file1, file2, file3)
+
+        `when`(imageUploader.uploadFile(file1)).thenReturn("https://s3.amazonaws.com/image1.jpg")
+        `when`(imageUploader.uploadFile(file2)).thenReturn("https://s3.amazonaws.com/image2.jpg")
+        `when`(imageUploader.uploadFile(file3)).thenReturn("https://s3.amazonaws.com/image3.jpg")
+
+        mockMemberService.saveFaceImage(member, request)
+
+        verify(imageUploader).uploadFile(file1)
+        verify(imageUploader).uploadFile(file2)
+        verify(imageUploader).uploadFile(file3)
+        val memberEntity = memberJpaRepository.findById(member.id!!).get()
+        val savedMember = memberEntity.toDomain()
+        assertThat(savedMember.codeImage).isNotNull
+        assertThat(savedMember.memberStatus).isEqualTo(MemberStatus.PENDING)
+    }
 }

@@ -3,7 +3,7 @@ package codel.member.infrastructure
 import codel.config.TestFixture
 import codel.member.domain.MemberStatus
 import codel.member.infrastructure.entity.MemberEntity
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
@@ -20,7 +20,7 @@ class MemberJpaRepositoryTest : TestFixture() {
                 oauthId = memberSignup.oauthId,
                 memberStatus = MemberStatus.SIGNUP,
             )
-        Assertions.assertThrows(DataIntegrityViolationException::class.java) {
+        assertThrows(DataIntegrityViolationException::class.java) {
             memberJpaRepository.save(newEntity)
         }
     }

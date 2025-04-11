@@ -49,4 +49,13 @@ class MemberController(
         memberService.saveCodeImage(member, files)
         return ResponseEntity.ok().build()
     }
+
+    @PostMapping("/v1/member/faceimage")
+    override fun saveFaceImage(
+        @LoginMember member: Member,
+        @RequestPart files: List<MultipartFile>,
+    ): ResponseEntity<Unit> {
+        memberService.saveFaceImage(member, files)
+        return ResponseEntity.ok().build()
+    }
 }
