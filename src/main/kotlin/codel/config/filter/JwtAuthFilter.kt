@@ -18,6 +18,7 @@ class JwtAuthFilter(
                 "/v1/health",
                 "/swagger-ui/",
                 "/v3/api-docs",
+                "/actuator/",
             )
     }
 
