@@ -54,7 +54,7 @@ class MemberRepository(
         return memberJpaRepository.findByIdOrNull(memberId) ?: throw IllegalArgumentException("멤버가 존재하지 않습니다.")
     }
 
-    fun saveImagePath(
+    fun saveCodeImage(
         member: Member,
         codeImage: CodeImage,
     ) {
@@ -62,5 +62,15 @@ class MemberRepository(
             memberJpaRepository.findByIdOrNull(member.id) ?: throw IllegalArgumentException("해당 id 멤버 없음")
         memberEntity.updateCodeImage(codeImage)
         memberEntity.changeMemberStatus(MemberStatus.CODE_PROFILE_IMAGE)
+    }
+
+    fun saveFaceImage(
+        member: Member,
+        faceImage: FaceImage,
+    ) {
+        val memberEntity =
+            memberJpaRepository.findByIdOrNull(member.id) ?: throw IllegalArgumentException("해당 id 멤버 없음")
+        memberEntity.updateFaceImage(faceImage)
+        memberEntity.changeMemberStatus(MemberStatus.PENDING)
     }
 }
