@@ -53,4 +53,17 @@ interface MemberControllerSwagger {
         @LoginMember member: Member,
         @RequestPart files: List<MultipartFile>,
     ): ResponseEntity<Unit>
+
+    @Operation(summary = "페이지 이미지 받기", description = "페이즈 이미지를 3장 받습니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "페이스 이미지 성공적으로 저장됨"),
+            ApiResponse(responseCode = "400", description = "요청 값이 잘못됨"),
+            ApiResponse(responseCode = "500", description = "서버 내부 오류"),
+        ],
+    )
+    fun saveFaceImage(
+        @LoginMember member: Member,
+        @RequestPart files: List<MultipartFile>,
+    ): ResponseEntity<Unit>
 }

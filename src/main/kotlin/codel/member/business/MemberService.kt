@@ -1,6 +1,7 @@
 package codel.member.business
 
 import codel.member.domain.CodeImage
+import codel.member.domain.FaceImage
 import codel.member.domain.ImageUploader
 import codel.member.domain.Member
 import codel.member.domain.MemberRepository
@@ -61,9 +62,20 @@ class MemberService(
         member: Member,
         files: List<MultipartFile>,
     ) {
-        val codeImage = uploadFile(files)
-        memberRepository.saveImagePath(member, codeImage)
+        val codeImage = uploadCodeImage(files)
+        memberRepository.saveCodeImage(member, codeImage)
     }
 
-    private fun uploadFile(files: List<MultipartFile>): CodeImage = CodeImage(files.map { file -> imageUploader.uploadFile(file) })
+    private fun uploadCodeImage(files: List<MultipartFile>): CodeImage = CodeImage(files.map { file -> imageUploader.uploadFile(file) })
+
+    @Transactional
+    fun saveFaceImage(
+        member: Member,
+        files: List<MultipartFile>,
+    ) {
+        val faceImage = uploadFaceImage(files)
+        memberRepository.saveFaceImage(member, faceImage)
+    }
+
+    private fun uploadFaceImage(files: List<MultipartFile>): FaceImage = FaceImage(files.map { file -> imageUploader.uploadFile(file) })
 }
